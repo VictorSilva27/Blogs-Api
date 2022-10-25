@@ -1,3 +1,5 @@
+// Iniciando o projeto 
+
 module.exports = {
   up: async (queryInterface, _Sequelize) => {
     await queryInterface.bulkInsert('users',
