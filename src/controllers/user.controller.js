@@ -1,16 +1,16 @@
 const UserService = require('../services/user.service');
+const jwtUtils = require('../utils/createToken');
 
-const getAll = async (req, res) => {
-    try {
-      const employee = await UserService.getAll();
-      return res.status(200).json(employee);
-    } catch (e) {
-      console.log(e);
-      res.status(500).json({ message: 'Ocorreu um erro' });
-    }
-  };
+const postUserController = async (req, res) => {
+  const { email, password, displayName, image } = req.body;
+  await UserService.InsertUser(email, password, displayName, image);
+  const user = await UserService.getByEmail(email, password);
+  const { password: _, ...userWithoutPassword } = user.dataValues;
+  const token = jwtUtils.createToken(userWithoutPassword);
+  res.status(201).json({ token });
+};
   
   module.exports = {
-    getAll,
+    postUserController,
     // getById;
   };
