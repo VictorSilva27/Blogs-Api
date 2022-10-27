@@ -8,10 +8,5 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'categories',
         underscored: true,
     });
-
-    CategoriesTable.associate = (models) => {
-        CategoriesTable.hasOne(models.BlogTable,
-          { foreignKey: 'categoryId', as: 'posts_categories' });
-    };
     return CategoriesTable;
 }
