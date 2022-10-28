@@ -12,11 +12,18 @@ const getByEmail = async (email, password) => {
   return user;
 };
 
+const getByUserId = async (id) => {
+  const user = await User.findOne({
+      where: { id },
+      attributes: { exclude: 'password' },
+    });
+  return user;
+};
+
 const InsertUser = async (email, password, displayName, image) => {
   const t = await sequelize.transaction();
 
   try {
-    // Depois executamos as operações
     const employee = await User.create(
       { displayName, email, password, image },
       { transaction: t },
@@ -28,11 +35,20 @@ const InsertUser = async (email, password, displayName, image) => {
   } catch (e) {
     await t.rollback();
     console.log(e);
-    throw e; // Jogamos o erro para a controller tratar
+    throw e;
   }
+};
+
+const getAllUsers = async () => {
+  const users = await User.findAll({
+    attributes: { exclude: 'password' },
+  });
+  return users;
 };
 
 module.exports = {
   getByEmail,
   InsertUser,
+  getByUserId,
+  getAllUsers,
 };

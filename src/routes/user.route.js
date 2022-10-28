@@ -1,14 +1,22 @@
 const express = require('express');
 const {
     postUserController,
+    getAllUsersController,
+    getUserByIdController,
 } = require('../controllers/user.controller');
 const {
     validateEmail,
     validateName,
     validatePassword,
+    validateUserId,
 } = require('../middlewares/validateUser');
 
+const validateJWT = require('../middlewares/validateJWT');
+
 const router = express.Router();
+
+router.get('/', validateJWT, getAllUsersController);
+router.get('/:id', validateJWT, validateUserId, getUserByIdController);
 
 router.post('/', validateEmail,
 validateName,
