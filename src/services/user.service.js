@@ -24,14 +24,14 @@ const InsertUser = async (email, password, displayName, image) => {
   const t = await sequelize.transaction();
 
   try {
-    const employee = await User.create(
+    const users = await User.create(
       { displayName, email, password, image },
       { transaction: t },
     );
 
     await t.commit();
 
-    return employee;
+    return users;
   } catch (e) {
     await t.rollback();
     console.log(e);
