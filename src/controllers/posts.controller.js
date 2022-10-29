@@ -21,8 +21,23 @@ const getSearchPostController = async (req, res) => {
     res.status(status).json(response);
 };
 
+const putPostController = async (req, res) => {
+    const postId = req.params.id;
+    const { title, content } = req.body;
+    const { status, response } = await PostsService.updatePost(title, content, postId);
+    return res.status(status).json(response);
+};
+
+const deletePostController = async (req, res) => {
+    const postId = req.params.id;
+    await PostsService.deletePost(postId);
+    return res.status(204).json();
+};
+
 module.exports = {
 getAllPostsController,
 getOnePostController,
 getSearchPostController,
+putPostController,
+deletePostController,
 };

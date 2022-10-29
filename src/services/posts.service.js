@@ -78,14 +78,30 @@ const objFilter = (name) => ({
 
 const getPostByTitleOrContent = async (name) => {
   const obj = objFilter(name);
-  console.log(obj);
   const posts = await BlogPost.findAll(obj);
-  // console.log(posts);
   return { status: 200, response: posts };
+};
+
+const updatePost = async (title, content, id) => {
+  await BlogPost.update({
+      title,
+      content },
+    { where: { id } });
+  const { response } = await getOneBlogPost(id);
+  return { status: 200, response };
+};
+
+const deletePost = async (id) => {
+  await BlogPost.destroy({
+    where: { id },
+  });
+  return { status: 204 };
 };
 
 module.exports = {
   getAllBlogPost,
   getOneBlogPost,
   getPostByTitleOrContent,
+  updatePost,
+  deletePost,
 };
