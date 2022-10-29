@@ -25,8 +25,8 @@ const InsertCategory = async (name) => {
 };
 
 const getAllCategory = async () => {
-  const users = await Category.findAll();
-  return users;
+  const category = await Category.findAll();
+  return category;
 };
 
 module.exports = {
