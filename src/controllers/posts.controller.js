@@ -1,9 +1,8 @@
 const PostsService = require('../services/posts.service');
 
 const getAllPostsController = async (_req, res) => {
-    console.log('Entrei');
-    const result = await PostsService.getAllBlogPost();
-    res.status(200).json(result);
+    const { status, response } = await PostsService.getAllBlogPost();
+    res.status(status).json(response);
 };
 
 const getOnePostController = async (req, res) => {
@@ -12,7 +11,18 @@ const getOnePostController = async (req, res) => {
     res.status(status).json(response);
 };
 
+const getSearchPostController = async (req, res) => {
+    const { q } = req.query;
+    if (q.length === 0) {
+        const { status, response } = await PostsService.getAllBlogPost();
+        return res.status(status).json(response);
+      }
+    const { status, response } = await PostsService.getPostByTitleOrContent(q);
+    res.status(status).json(response);
+};
+
 module.exports = {
 getAllPostsController,
 getOnePostController,
+getSearchPostController,
 };

@@ -1,4 +1,4 @@
-// const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 // const config = require('../config/config');
 const { BlogPost, User, Category } = require('../models/index');
 
@@ -36,7 +36,7 @@ const getAllBlogPost = async () => {
       through: { attributes: [] },
     }],
   });
-  return posts;
+  return { status: 200, response: posts };
 };
 
 const getOneBlogPost = async (id) => {
@@ -58,7 +58,34 @@ const getOneBlogPost = async (id) => {
   return { status: 200, response: posts };
 };
 
+const objFilter = (name) => ({
+  where: {
+    [Op.or]: [
+      { title: { [Op.like]: `%${name}%` } },
+      { content: { [Op.like]: `%${name}%` } },
+    ], 
+  },
+  include: [{
+    model: User,
+    as: 'user',
+    attributes: { exclude: 'password' },
+  }, {
+    model: Category,
+    as: 'categories',
+    through: { attributes: [] },
+  }],
+});
+
+const getPostByTitleOrContent = async (name) => {
+  const obj = objFilter(name);
+  console.log(obj);
+  const posts = await BlogPost.findAll(obj);
+  // console.log(posts);
+  return { status: 200, response: posts };
+};
+
 module.exports = {
   getAllBlogPost,
   getOneBlogPost,
+  getPostByTitleOrContent,
 };

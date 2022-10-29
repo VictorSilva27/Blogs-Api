@@ -1,5 +1,6 @@
 const UserService = require('../services/user.service');
 const jwtUtils = require('../utils/createToken');
+const getUser = require('../middlewares/getUserByToken');
 
 const postUserController = async (req, res) => {
   const { email, password, displayName, image } = req.body;
@@ -22,8 +23,16 @@ const getUserByIdController = async (req, res) => {
   return res.status(200).json(dataValues);
 };
   
+const deleteUserByIdController = async (req, res) => {
+  const token = req.header('Authorization');
+  const userId = getUser(token);
+  const { status } = await UserService.deleteUser(userId);
+  return res.status(status).json();
+};
+
 module.exports = {
   postUserController,
   getAllUsersController,
   getUserByIdController,
+  deleteUserByIdController,
 };

@@ -3,6 +3,7 @@ const {
     postUserController,
     getAllUsersController,
     getUserByIdController,
+    deleteUserByIdController,
 } = require('../controllers/user.controller');
 const {
     validateEmail,
@@ -17,6 +18,7 @@ const router = express.Router();
 
 router.get('/', validateJWT, getAllUsersController);
 router.get('/:id', validateJWT, validateUserId, getUserByIdController);
+router.delete('/me', validateJWT, deleteUserByIdController);
 
 router.post('/', validateEmail,
 validateName,
