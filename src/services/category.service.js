@@ -29,7 +29,16 @@ const getAllCategory = async () => {
   return category;
 };
 
+const getCategoryById = async (arrayId) => {
+  const promisse = arrayId.map((idCate) => Category.findOne({
+    where: idCate,
+  }));
+  const result = Promise.all(promisse);
+  return result;
+};
+
 module.exports = {
   InsertCategory,
   getAllCategory,
+  getCategoryById,
 };

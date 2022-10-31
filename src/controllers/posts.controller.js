@@ -1,4 +1,5 @@
 const PostsService = require('../services/posts.service');
+const getUser = require('../middlewares/getUserByToken');
 
 const getAllPostsController = async (_req, res) => {
     const { status, response } = await PostsService.getAllBlogPost();
@@ -28,6 +29,14 @@ const putPostController = async (req, res) => {
     return res.status(status).json(response);
 };
 
+const postPostController = async (req, res) => {
+    const { title, content, categoryIds } = req.body;
+    const token = req.header('Authorization');
+    const userId = getUser(token);
+    const { status, response } = await PostsService.insertPost(title, content, userId, categoryIds);
+    return res.status(status).json(response);
+};
+
 const deletePostController = async (req, res) => {
     const postId = req.params.id;
     await PostsService.deletePost(postId);
@@ -40,4 +49,5 @@ getOnePostController,
 getSearchPostController,
 putPostController,
 deletePostController,
+postPostController,
 };

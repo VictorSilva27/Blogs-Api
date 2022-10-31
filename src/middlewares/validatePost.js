@@ -1,8 +1,8 @@
 const PostsService = require('../services/posts.service');
+const CategoryService = require('../services/category.service');
 const getUserToken = require('./getUserByToken');
 
 const validateUserFromPost = async (req, res, next) => {
-    console.log('Entrei UserFromPost');
     const postId = req.params.id;
     const token = req.header('Authorization');
     const userId = getUserToken(token);
@@ -20,8 +20,18 @@ const validateCampus = (req, res, next) => {
     return next();
 };
 
+const validateCampusCategoryIds = async (req, res, next) => {
+    const { categoryIds } = req.body;
+    if (!categoryIds) {
+        return res.status(400).json({ message: 'Some required fields are missing' }); 
+    }
+    const resultPromisse = await CategoryService.getCategoryById(categoryIds);
+    const result = resultPromisse.every((Category) => Category !== null);
+    if (!result) return res.status(400).json({ message: 'one or more "categoryIds" not found' });
+    return next();
+};
+
 const validatePostId = async (req, res, next) => {
-    console.log('Entrei postId');
     const postId = req.params.id;
     const { status, response } = await PostsService.getOneBlogPost(postId);
     if (status !== 200) return res.status(status).json(response);
@@ -32,4 +42,5 @@ module.exports = {
     validateUserFromPost,
     validateCampus,
     validatePostId,
+    validateCampusCategoryIds,
 };

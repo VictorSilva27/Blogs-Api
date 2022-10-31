@@ -1,28 +1,35 @@
 const { Op } = require('sequelize');
-// const config = require('../config/config');
-const { BlogPost, User, Category } = require('../models/index');
+const Sequelize = require('sequelize');
+const config = require('../config/config');
+const { BlogPost, User, Category, PostCategory } = require('../models/index');
 
-// const env = process.env.NODE_ENV || 'development';
-// const sequelize = new Sequelize(config[env]);
+const env = process.env.NODE_ENV || 'development';
+const sequelize = new Sequelize(config[env]);
 
-// const InsertCategory = async (name) => {
-//   const t = await sequelize.transaction();
+const timeElapsed = Date.now();
+const today = new Date(timeElapsed);
 
-//   try {
-//     const category = await Category.create(
-//       { name },
-//       { transaction: t },
-//     );
+const insertPost = async (title, content, userId, arrayIdsCate) => {
+  const t = await sequelize.transaction();
+  try {
+    const posts = await BlogPost.create(
+      { title, content, userId, published: today.toISOString(), updated: today.toISOString() },
+      { transaction: t },
+    );
 
-//     await t.commit();
+    Promise.all(
+      arrayIdsCate.map((categoryId) => PostCategory.create({
+        postId: Number(posts.id), categoryId: Number(categoryId),
+      })),
+    );
+    await t.commit();
 
-//     return category;
-//   } catch (e) {
-//     await t.rollback();
-//     console.log(e);
-//     throw e;
-//   }
-// };
+    return { status: 201, response: posts };
+  } catch (e) {
+    await t.rollback();
+    throw e;
+  }
+};
 
 const getAllBlogPost = async () => {
   const posts = await BlogPost.findAll({
@@ -104,4 +111,5 @@ module.exports = {
   getPostByTitleOrContent,
   updatePost,
   deletePost,
+  insertPost,
 };
