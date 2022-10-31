@@ -1,5 +1,7 @@
 # Projeto Blogs Api
 
+Projeto utilizando uma das ferramentas mais usadas para facilitar o uso de banco de dados no JavaScript, o sequelize ajuda muito para criar e manipular dados do banco, e garantir uma melhora nas rotas. 
+
 ### 🔰Como iniciar o projeto na sua máquina🔰
 
 - ``` git clone git@github.com:VictorSilva27/Project-Blogs-Api.git ``` (Clonar o repositório no local)
