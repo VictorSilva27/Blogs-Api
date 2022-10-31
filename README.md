@@ -24,4 +24,4 @@ Agora copie e cola o link abaixo, no seu navegador:
 - ``` http://localhost:3000/login ```
 
 ### 🔰Nota do projeto🔰
-![Nota do Projeto Blogs Api](blogsApi.png)
+![Nota do Projeto Blogs Api](BlogApi.png)
