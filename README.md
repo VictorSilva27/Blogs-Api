@@ -1,10 +1,24 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# Projeto Blogs Api
+
+🔰Como iniciar o projeto na sua máquina🔰
+
+- ``` git clone git@github.com:VictorSilva27/Project-Blogs-Api.git ``` (Clonar o repositório no local)
+- ``` cd Project-Blogs-Api ``` (Entrar no repositório clonado)
+
+🔰Rodando com Docker🔰
+- ``` docker-compose up -d --build ``` (Instalando as images do NodeJs e MySql)
+
+Em caso de Erro de funcionamendo de Porta, altere as linhas das ports no arquivo ``` docker-compose.yml ```
+- ``` docker exec -it blogs_api bash ``` (Entrando no container)
+- ``` npm install ``` (Baixando as dependências do projeto)
+- ``` npm start ``` (Iniciando o projeto)
+
+No seu terminal deve estar aparecendo algo como ``` Rodando na porta 3000 ```
+
+🔰Criando e populando as tabelas do banco🔰
+
+- ``` npm run prestart ```
+- ``` npm run seed ```
+
+Agora copie e cola o link abaixo, no seu navegador: 
+- ``` http://localhost:3000/login ```
